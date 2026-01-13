@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>አሰፋ ዲጂታል ቢንጎ - Player</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="border-container">
+        <div class="main-container">
+            <!-- Color Borders -->
+            <div class="page-border green"></div>
+            <div class="page-border yellow"></div>
+            <div class="page-border red"></div>
+
+            <!-- Game Board Page -->
+            <div class="page-container active" id="page3">
+                <div class="game-header">
+                    <div class="game-title-bar amharic-text" id="gameHeader">አሰፋ ዲጂታል ቢንጎ</div>
+                    <div class="connection-status" id="connectionStatus">
+                        <span class="status-dot"></span>
+                        <span class="status-text">Connecting...</span>
+                    </div>
+                </div>
+                
+                <div class="game-board-container">
+                    <div id="gameBoard"></div>
+                </div>
+                
+                <!-- Circular Call Display -->
+                <div class="circular-call-container">
+                    <div class="circular-call-btn" id="currentNumberDisplay">
+                        --
+                    </div>
+                    <div class="called-numbers-bar" id="calledNumbersBar">
+                        <span class="called-number amharic-text">Waiting for numbers...</span>
+                    </div>
+                </div>
+                
+                <!-- Game Controls -->
+                <div class="game-controls">
+                    <button class="control-btn btn-info" onclick="showGameSettings()">Settings</button>
+                    <button class="control-btn btn-success" onclick="announceWin()" id="announceBtn">አሸናፊ ናለሁ!</button>
+                </div>
+            </div>
+
+            <!-- Settings Modal -->
+            <div class="modal" id="settingsModal">
+                <div class="modal-content">
+                    <div class="modal-header amharic-text">Game Settings</div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="playerNameInput" class="amharic-text">Your Name</label>
+                            <input type="text" id="playerNameInput" class="form-control" 
+                                   placeholder="Enter your name" value="Player">
+                        </div>
+                        <div class="form-group">
+                            <label for="gameTypeSelect" class="amharic-text">Board Type</label>
+                            <select id="gameTypeSelect" class="form-control">
+                                <option value="75ball">75-Ball Bingo</option>
+                                <option value="90ball">90-Ball Bingo</option>
+                                <option value="30ball">30-Ball Bingo</option>
+                                <option value="50ball">50-Ball Bingo</option>
+                                <option value="pattern">Pattern Bingo</option>
+                                <option value="coverall">Coverall</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="boardNumberInput" class="amharic-text">Board Number</label>
+                            <input type="number" id="boardNumberInput" class="form-control" 
+                                   min="1" max="100" value="1">
+                        </div>
+                        <button class="control-btn btn-success" onclick="generateNewBoard()">Generate New Board</button>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="control-btn btn-secondary" onclick="hideSettings()">Close</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Winner Notification -->
+            <div class="winner-notification" id="winnerNotification">
+                <div style="font-size: 32px; margin-bottom: 15px;">🎉 ቢንጎ! 🎉</div>
+                <div class="winner-name amharic-text" id="winnerName"></div>
+                <div class="winning-pattern amharic-text" id="winPattern"></div>
+                <div style="margin: 15px 0; color: #ffd700;" class="amharic-text">Congratulations!</div>
+                <div class="modal-footer">
+                    <button class="control-btn btn-success" onclick="continueGame()">Continue</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="client.js"></script>
+    <script src="player.js"></script>
+</body>
+</html>

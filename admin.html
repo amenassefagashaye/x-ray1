@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>አሰፋ ዲጂታል ቢንጎ - Admin</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Ethiopic:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="border-container">
+        <div class="main-container">
+            <!-- Login Page -->
+            <div class="page-container active" id="loginPage">
+                <div class="page-content">
+                    <div class="welcome-content">
+                        <div class="game-title amharic-text">አሰፋ ዲጂታል ቢንጎ</div>
+                        <div style="font-size: 16px; color: #ffd700; margin-bottom: 30px; text-align: center;">
+                            Admin Control Panel
+                        </div>
+                        
+                        <div class="login-form">
+                            <div class="form-group">
+                                <label for="adminPassword" class="amharic-text">Password</label>
+                                <input type="password" id="adminPassword" class="form-control" 
+                                       placeholder="Enter admin password">
+                            </div>
+                            <button class="start-btn-circle" onclick="adminLogin()">
+                                <div style="font-size: 24px;">🔑</div>
+                            </button>
+                            <div id="loginError" style="color: #dc3545; margin-top: 15px; display: none;">
+                                Invalid password!
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Admin Dashboard -->
+            <div class="page-container" id="dashboardPage">
+                <div class="page-content">
+                    <div class="game-header">
+                        <div class="game-title-bar amharic-text">Admin Dashboard</div>
+                        <div class="connection-status" id="adminConnectionStatus">
+                            <span class="status-dot"></span>
+                            <span class="status-text">Connected</span>
+                        </div>
+                    </div>
+
+                    <!-- Game Control Section -->
+                    <div class="admin-section">
+                        <h3 class="amharic-text">Game Controls</h3>
+                        
+                        <div class="control-row">
+                            <div class="form-group">
+                                <label for="adminGameType" class="amharic-text">Game Type</label>
+                                <select id="adminGameType" class="form-control">
+                                    <option value="75ball">75-Ball Bingo</option>
+                                    <option value="90ball">90-Ball Bingo</option>
+                                    <option value="30ball">30-Ball Bingo</option>
+                                    <option value="50ball">50-Ball Bingo</option>
+                                    <option value="pattern">Pattern Bingo</option>
+                                    <option value="coverall">Coverall</option>
+                                </select>
+                            </div>
+                            
+                            <div class="button-group">
+                                <button class="control-btn btn-success" onclick="startNewGame()">
+                                    Start New Game
+                                </button>
+                                <button class="control-btn btn-danger" onclick="resetGame()">
+                                    Reset Game
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Number Drawing Section -->
+                    <div class="admin-section">
+                        <h3 class="amharic-text">Number Drawing</h3>
+                        
+                        <div class="draw-controls">
+                            <div class="current-number-display" id="adminCurrentNumber">
+                                --
+                            </div>
+                            
+                            <div class="button-group">
+                                <button class="control-btn btn-primary" onclick="drawNumber()" id="drawBtn">
+                                    Draw Number
+                                </button>
+                                <button class="control-btn btn-secondary" onclick="autoDrawToggle()" id="autoDrawBtn">
+                                    Auto Draw (Off)
+                                </button>
+                            </div>
+                            
+                            <div class="stats">
+                                <div class="stat-item">
+                                    <span class="amharic-text">Drawn Numbers:</span>
+                                    <span id="drawnCount">0</span>
+                                </div>
+                                <div class="stat-item">
+                                    <span class="amharic-text">Remaining:</span>
+                                    <span id="remainingCount">75</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Called Numbers -->
+                    <div class="admin-section">
+                        <h3 class="amharic-text">Called Numbers</h3>
+                        <div class="called-numbers-grid" id="calledNumbersGrid">
+                            <!-- Numbers will be added here -->
+                        </div>
+                    </div>
+
+                    <!-- Connected Players -->
+                    <div class="admin-section">
+                        <h3 class="amharic-text">Connected Players (<span id="playerCount">0</span>)</h3>
+                        <div class="players-list" id="playersList">
+                            <!-- Players will be added here -->
+                        </div>
+                    </div>
+
+                    <!-- Recent Winners -->
+                    <div class="admin-section">
+                        <h3 class="amharic-text">Recent Winners</h3>
+                        <div class="winners-list" id="winnersList">
+                            <!-- Winners will be added here -->
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="fixed-controls">
+                    <button class="control-btn btn-danger" onclick="logoutAdmin()">Logout</button>
+                    <button class="control-btn btn-info" onclick="showSettings()">Settings</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div class="modal" id="adminSettingsModal">
+        <div class="modal-content">
+            <div class="modal-header amharic-text">Admin Settings</div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="amharic-text">Auto Draw Interval (seconds)</label>
+                    <input type="number" id="autoDrawInterval" class="form-control" 
+                           min="3" max="30" value="7">
+                </div>
+                <div class="form-group">
+                    <label class="amharic-text">Game Duration (minutes)</label>
+                    <input type="number" id="gameDuration" class="form-control" 
+                           min="5" max="120" value="30">
+                </div>
+                <div class="form-group">
+                    <label class="amharic-text">Maximum Numbers</label>
+                    <input type="number" id="maxNumbers" class="form-control" 
+                           min="10" max="100" value="75">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="control-btn btn-success" onclick="saveSettings()">Save</button>
+                <button class="control-btn btn-secondary" onclick="hideAdminSettings()">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="client.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>
